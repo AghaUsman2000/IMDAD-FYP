@@ -1,2 +1,14 @@
 # IMDAD-FYP
 this repo will be used for our group collabration for FYP
+
+Institute of Business Administration - BS Computer Science Batch of 2023
+
+Internal Supervisor : Sir Tahir Syed
+Co-Supervisor : Dr Muhammad Saeed
+
+Team:
+● Mohsin Aleem - 18626
+● Mustafa Ahmed - 19786
+● Agha Muhammad Usman - 19750
+● Farjad Khan - 19711
+● Hamza Irfan - 18598
