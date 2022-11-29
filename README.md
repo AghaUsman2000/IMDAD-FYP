@@ -1,4 +1,5 @@
-# IMDAD-FYP
+# IMDAD-FYP(One stop platform to fight food wastage)
+
 this repo will be used for our group collabration for FYP
 
 Institute of Business Administration - BS Computer Science Batch of 2023
