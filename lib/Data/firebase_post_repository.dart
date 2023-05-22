@@ -6,7 +6,7 @@ class FirebasePostRepository implements PostRepository {
 
   @override
   addPosts(String title, String description, String quantity, String uid,
-      double lat, double long, String name, String number) {
+      double lat, double long, String name, String number, String image1,String image2, String image3) {
     //notifyListeners();
     db.collection("posts").add({
       "title": title,
@@ -22,6 +22,9 @@ class FirebasePostRepository implements PostRepository {
       "number": number,
       "nname": "undefined",
       "nnumber": "undefined",
+      "image1": image1,
+      "image2": image2,
+      "image3":image3
     }).then((DocumentReference doc) =>
         print('DocumentSnapshot added with ID: ${doc.id}'));
   }
