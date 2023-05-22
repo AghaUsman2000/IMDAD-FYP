@@ -110,58 +110,84 @@ class _TrackNgoState extends State<TrackNgo> {
                             )),
                       ),
                       trailing: FittedBox(
-                        fit: BoxFit.fill,
+                        fit: BoxFit.contain,
                         child: Column(
                           children: <Widget>[
-                            ElevatedButton.icon(
-                              onPressed: () async {
-                                Clipboard.setData(
-                                    ClipboardData(text: posts[index].number));
-                                value = await alertBox();
-                                // Code here
-                              },
-                              icon: const Icon(
-                                  Icons.phone), //icon data for elevated button
-                              label: const Text("Contact",
-                                  style: TextStyle(fontSize: 30)), //label text
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(
-                                    0xFF004803), //elevated btton background color
+                            Container(
+                              height: 340,
+                              width: 850,
+                              child: ElevatedButton.icon(
+                                onPressed: () async {
+                                  Clipboard.setData(
+                                      ClipboardData(text: posts[index].number));
+                                  value = await alertBox();
+                                  // Code here
+                                },
+                                icon: const Icon(
+                                  Icons.phone,
+                                  size: 140,
+                                ), //icon data for elevated button
+                                label: const Text("Contact",
+                                    style:
+                                        TextStyle(fontSize: 170)), //label text
+                                style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(40)),
+                                  backgroundColor: const Color(
+                                      0xFF004803), //elevated btton background color
+                                ),
                               ),
                             ),
-                            ElevatedButton.icon(
-                              onPressed: () async {
-                                context
-                                    .read<TrackNgoProvider>()
-                                    .updatePost(posts[index].pid);
-                                // Code here
-                              },
-                              icon: const Icon(Icons
-                                  .check_circle), //icon data for elevated button
-                              label: const Text("Done",
-                                  style: TextStyle(fontSize: 30)), //
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(
-                                    0xFF004803), //elevated btton background color
+                            SizedBox(height: 40,),
+                            Container(
+                              height: 340,
+                              width: 850,
+                              child: ElevatedButton.icon(
+                                onPressed: () async {
+                                  context
+                                      .read<TrackNgoProvider>()
+                                      .updatePost(posts[index].pid);
+                                  // Code here
+                                },
+                                icon: const Icon(
+                                  Icons.check_circle,
+                                  size: 140,
+                                ), //icon data for elevated button
+                                label: const Text("Done",
+                                    style: TextStyle(fontSize: 170)), //
+                                style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20)),
+                                  backgroundColor: const Color(
+                                      0xFF004803), //elevated btton background color
+                                ),
                               ),
                             ),
-                            ElevatedButton.icon(
-                              onPressed: () async {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        RiderScreen(post: posts[index]),
-                                  ),
-                                );
-                              },
-                              icon: const Icon(Icons
-                                  .bike_scooter), //icon data for elevated button
-                              label: const Text("Rider",
-                                  style: TextStyle(fontSize: 30)), //label text
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(
-                                    0xFF004803), //elevated btton background color
+                            SizedBox(height: 40,),
+
+                            Container(
+                              height: 340,
+                              width: 850,
+                              child: ElevatedButton.icon(
+                                onPressed: () async {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          RiderScreen(post: posts[index]),
+                                    ),
+                                  );
+                                },
+                                icon: const Icon(Icons
+                                    .bike_scooter,size: 140,), //icon data for elevated button
+                                label: const Text("Rider",
+                                    style: TextStyle(fontSize: 170)), //label text
+                                style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20)),
+                                  backgroundColor: const Color(
+                                      0xFF004803), //elevated btton background color
+                                ),
                               ),
                             ),
                           ],

@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterdemo/Features/Post%20Requests/request_donar_provider.dart';
+
 import 'package:flutterdemo/Features/Post%20Requests/request_ngo_provider.dart';
 import 'package:provider/provider.dart';
 import '../../Data/JSON/post_json.dart';
@@ -25,18 +25,18 @@ class _RequestNgoState extends State<RequestNgo> {
   @override
   void initState() {
     super.initState();
-    context.read<PostRequestsProvider>().fetchPosts();
-    posts = context.read<PostRequestsProvider>().posts;
+    context.read<RequestNgoProvider>().fetchPosts();
+    posts = context.read<RequestNgoProvider>().posts;
     print('Length:');
-    print(context.read<PostRequestsProvider>().posts.length);
+    print(context.read<RequestNgoProvider>().posts.length);
     //loadData();
   }
 
   void refresh(){
-    context.read<PostRequestsProvider>().fetchPosts();
-    posts = context.read<PostRequestsProvider>().posts;
+    context.read<RequestNgoProvider>().fetchPosts();
+    posts = context.read<RequestNgoProvider>().posts;
     print('Length:');
-    print(context.read<PostRequestsProvider>().posts.length);
+    print(context.read<RequestNgoProvider>().posts.length);
   }
 
   @override
