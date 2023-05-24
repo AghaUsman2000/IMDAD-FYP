@@ -13,7 +13,9 @@ class PostJson {
   final String number;
   final String nname;
   final String nnumber;
-
+  final String image1;
+  final String image2;
+  final String image3;
   PostJson({
     required this.pid,
     required this.uid,
@@ -29,6 +31,9 @@ class PostJson {
     required this.number,
     required this.nname,
     required this.nnumber,
+    required this.image1,
+    required this.image2,
+    required this.image3,
   });
 
   static PostJson fromJson(Map<String, dynamic> json, String id) => PostJson(
@@ -46,5 +51,8 @@ class PostJson {
         name: json['name'],
         nnumber: json['nnumber'],
         nname: json['nname'],
+        image1: json['image1'],
+        image2: json['image2'],
+        image3: json['image3'],
       );
 }

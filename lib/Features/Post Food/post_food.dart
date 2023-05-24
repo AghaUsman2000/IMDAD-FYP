@@ -7,6 +7,9 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import '../../Data/JSON/user_json.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path/path.dart' as Path;
+
 
 class PostFood extends StatefulWidget {
   const PostFood({Key? key}) : super(key: key);
@@ -147,6 +150,24 @@ class _PostFoodState extends State<PostFood> {
       debugPrint(error.toString());
     }
   }
+  Future<String> uploadImageToFirebase(File imageFile) async {
+    try {
+      String fileName = Path.basename(imageFile.path);
+      Reference ref = FirebaseStorage.instance.ref().child('images/$fileName');
+
+      // Upload the file to Firebase Storage
+      UploadTask uploadTask = ref.putFile(imageFile);
+
+      // Get the download URL of the uploaded file
+      String imageUrl = await (await uploadTask).ref.getDownloadURL();
+
+      return imageUrl;
+    } catch (error) {
+      print('Error uploading image: $error');
+      return '';
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -334,6 +355,20 @@ class _PostFoodState extends State<PostFood> {
           String name = users[users.length - 1].name;
           String number = users[users.length - 1].number;
 
+          String imageUrl1 = '';
+          String imageUrl2 = '';
+          String imageUrl3 = '';
+
+          // Upload the images if they are selected
+          if (pickedImage1 != null) {
+            imageUrl1 = await uploadImageToFirebase(pickedImage1!);
+          }
+          if (pickedImage2 != null) {
+            imageUrl2 = await uploadImageToFirebase(pickedImage2!);
+          }
+          if (pickedImage3 != null) {
+            imageUrl3 = await uploadImageToFirebase(pickedImage3!);
+          }
           // String nname = users[users.length-1].name;
           // String nnumber = users[users.length-1].number;
 
@@ -345,7 +380,7 @@ class _PostFoodState extends State<PostFood> {
               position.latitude,
               position.longitude,
               name,
-              number);
+              number,imageUrl1,imageUrl2,imageUrl3);
           value = await alertBox();
         },
         label: const Text(
