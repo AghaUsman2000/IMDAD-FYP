@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>863523651566-n9pavcgp512m3hf9jpnp5431hncvo3ak.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.863523651566-n9pavcgp512m3hf9jpnp5431hncvo3ak</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAJti0hJUw-Sq1BzesbSmZpfN-5lXZChiY</string>
+	<key>GCM_SENDER_ID</key>
+	<string>863523651566</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.riderApp</string>
+	<key>PROJECT_ID</key>
+	<string>rizqbachao-b19fa</string>
+	<key>STORAGE_BUCKET</key>
+	<string>rizqbachao-b19fa.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:863523651566:ios:e2dd325f33836f616d58ff</string>
+	<key>DATABASE_URL</key>
+	<string>https://rizqbachao-b19fa-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>
