@@ -33,8 +33,8 @@ class _SignupDonorOneState extends State<SignupDonorOne> {
               right: 45,
               child: Container(
                   child: Image.asset(
-                    'assets/images/Donar_signUp_gif.png',
-                  )),
+                'assets/images/Donar_signUp_gif.png',
+              )),
             ),
           ],
         ),
@@ -58,10 +58,8 @@ class _signup_containerState extends State<signup_container> {
   final formKey = GlobalKey<FormState>();
   bool _isobscured = true;
 
-
   @override
   void dispose() {
-    // TODO: implement dispose
     emailController.dispose();
     passwordController.dispose();
 
@@ -99,7 +97,6 @@ class _signup_containerState extends State<signup_container> {
               const SizedBox(
                 height: 20,
               ),
-
 
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -158,7 +155,6 @@ class _signup_containerState extends State<signup_container> {
                 ],
               ),
               TextFormField(
-
                 controller: passwordController,
                 obscureText: _isobscured,
                 style: const TextStyle(
@@ -177,12 +173,18 @@ class _signup_containerState extends State<signup_container> {
                       color: Color(0xFFABD1C6),
                     ),
                     suffixIcon: IconButton(
-                      icon: _isobscured? const Icon(Icons.visibility,
-                        color: Color(0xFFABD1C6),): const Icon(Icons.visibility_off,
-                        color: Color(0xFFABD1C6),),
-                      onPressed: (){
+                      icon: _isobscured
+                          ? const Icon(
+                              Icons.visibility,
+                              color: Color(0xFFABD1C6),
+                            )
+                          : const Icon(
+                              Icons.visibility_off,
+                              color: Color(0xFFABD1C6),
+                            ),
+                      onPressed: () {
                         setState(() {
-                          _isobscured =! _isobscured;
+                          _isobscured = !_isobscured;
                         });
                       },
                     )),
@@ -249,39 +251,50 @@ class _signup_containerState extends State<signup_container> {
     // Signup Using Email and Password
     final db = FirebaseFirestore.instance;
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: emailController.text.trim(),
-        password: passwordController.text.trim(),
-      ).then((value) => {
-        db.collection('users').doc(value.user?.uid).set({
-          'name':Provider.of<SignupDonorProvider>(context, listen: false).name.text.trim(),
-          'number':Provider.of<SignupDonorProvider>(context, listen: false).number.text.trim(),
-          'isngo': 0,
-          'email': emailController.text.trim(),
-          'organisation': '',
-        }),
-        print('Adding User with' + Provider.of<SignupDonorProvider>(context, listen: false).number.text.trim()),
-      });
+      await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+            email: emailController.text.trim(),
+            password: passwordController.text.trim(),
+          )
+          .then((value) => {
+                db.collection('users').doc(value.user?.uid).set({
+                  'name':
+                      Provider.of<SignupDonorProvider>(context, listen: false)
+                          .name
+                          .text
+                          .trim(),
+                  'number':
+                      Provider.of<SignupDonorProvider>(context, listen: false)
+                          .number
+                          .text
+                          .trim(),
+                  'isngo': 0,
+                  'email': emailController.text.trim(),
+                  'organisation': '',
+                }),
+                print('Adding User with' +
+                    Provider.of<SignupDonorProvider>(context, listen: false)
+                        .number
+                        .text
+                        .trim()),
+              });
     } on FirebaseAuthException catch (e) {
       print(e);
     }
     await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailController.text.trim(),
-        password: passwordController.text.trim()
-    );
+        password: passwordController.text.trim());
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => StreamBuilder<User?>(
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (context, snapshot) {
-              if(snapshot.hasData)
-              {
-                return MainScreen();//MapLoader(); //if the user is logged in show home page
-              } else{
+              if (snapshot.hasData) {
+                return MainScreen(); //MapLoader(); //if the user is logged in show home page
+              } else {
                 return MainScreen(); // else show login page
               }
-            }
-        ),
+            }),
       ),
     );
   }

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,11 +15,7 @@ class ProfileNgo extends StatefulWidget {
   State<ProfileNgo> createState() => _ProfileNgoState();
 }
 
-
-
 class _ProfileNgoState extends State<ProfileNgo> {
-
-
   final user = FirebaseAuth.instance.currentUser!;
   List<UserJson> users = [];
 
@@ -28,43 +25,35 @@ class _ProfileNgoState extends State<ProfileNgo> {
 
     context.read<ProfileProvidor>().getUserDetails(user.uid);
     users = context.read<ProfileProvidor>().list;
-
   }
-
 
   @override
   Widget build(BuildContext context) {
-
-
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
         automaticallyImplyLeading: false,
-        backgroundColor: Color(0xFF004643),
+        backgroundColor: const Color(0xFF004643),
       ),
       body: Padding(
-        padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+        padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(
               height: 60.0,
             ),
-
-            CircleAvatar(
+            const CircleAvatar(
               backgroundColor: Colors.transparent,
               backgroundImage: AssetImage('assets/images/Group.png'),
-
               radius: 80,
             ),
-
             const SizedBox(
               height: 5.0,
             ),
             Text(
-              users[users.length-1].organisation,
-              style: TextStyle(
+              users[users.length - 1].organisation,
+              style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 30,
                   color: Color(0xFF004643)),
@@ -72,10 +61,20 @@ class _ProfileNgoState extends State<ProfileNgo> {
             const SizedBox(
               height: 1.0,
             ),
-
             Text(
-              users[users.length-1].name,
-              style: TextStyle(
+              users[users.length - 1].name,
+              style: const TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 15,
+                color: Color(0xFFF9BC60),
+              ),
+            ),
+            const SizedBox(
+              height: 1.0,
+            ),
+            Text(
+              users[users.length - 1].email,
+              style: const TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: 15,
                   color: Color(0xFFF9BC60)),
@@ -83,20 +82,9 @@ class _ProfileNgoState extends State<ProfileNgo> {
             const SizedBox(
               height: 1.0,
             ),
-
             Text(
-              users[users.length-1].email,
-              style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 15,
-                  color: Color(0xFFF9BC60)),
-            ),
-            const SizedBox(
-              height: 1.0,
-            ),
-            Text(
-              users[users.length-1].number,
-              style: TextStyle(
+              users[users.length - 1].number,
+              style: const TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: 15,
                   color: Color(0xFFF9BC60)),
@@ -115,35 +103,38 @@ class _ProfileNgoState extends State<ProfileNgo> {
               height: 20.0,
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
               child: Card(
                 shape: RoundedRectangleBorder(
-                  side: BorderSide(
+                  side: const BorderSide(
                     color: Color(0xFF004643),
                   ),
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 elevation: 10,
-                shadowColor: Color(0xFF004643),
+                shadowColor: const Color(0xFF004643),
                 child: ListTile(
-                    leading: const Icon(
-                      Icons.logout,
-                      color: Color(0xFF004643),
-                    ),
-                    title: const Text("Logout",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF004643),
-                        )),
-                    onTap: () {
-                      FirebaseAuth.instance.signOut().then((value) => {
-                        MaterialPageRoute(
-                          builder: (context) => LoginOptionScreen(),
-                        )
-                      });
-                    }),
+                  leading: const Icon(
+                    Icons.logout,
+                    color: Color(0xFF004643),
+                  ),
+                  title: const Text("Logout",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF004643),
+                      )),
+                  onTap: () async {
+                    await FirebaseAuth.instance.signOut().then(
+                          (value) => {
+                            MaterialPageRoute(
+                              builder: (context) => const LoginOptionScreen(),
+                            )
+                          },
+                        );
+                  },
+                ),
               ),
-            )
+            ),
           ],
         ),
       ),

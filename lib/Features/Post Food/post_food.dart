@@ -1,12 +1,15 @@
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutterdemo/Features/Post%20Food/post_food_provider.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import '../../Data/JSON/user_json.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path/path.dart' as Path;
 
 class PostFood extends StatefulWidget {
   const PostFood({Key? key}) : super(key: key);
@@ -148,6 +151,24 @@ class _PostFoodState extends State<PostFood> {
     }
   }
 
+  Future<String> uploadImageToFirebase(File imageFile) async {
+    try {
+      String fileName = Path.basename(imageFile.path);
+      Reference ref = FirebaseStorage.instance.ref().child('images/$fileName');
+
+      // Upload the file to Firebase Storage
+      UploadTask uploadTask = ref.putFile(imageFile);
+
+      // Get the download URL of the uploaded file
+      String imageUrl = await (await uploadTask).ref.getDownloadURL();
+
+      return imageUrl;
+    } catch (error) {
+      print('Error uploading image: $error');
+      return '';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser!;
@@ -250,6 +271,14 @@ class _PostFoodState extends State<PostFood> {
               ),
               TextFormField(
                 controller: quantity,
+                maxLength: 2,
+                validator: (value) {
+                  if (value!.length > 2) {
+                    return 'Maximum length exceeded';
+                  }
+                  return null;
+                },
+                keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white /*const Color(0xFF001E1D)*/,
@@ -323,21 +352,41 @@ class _PostFoodState extends State<PostFood> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
-          Position position = await _determinePosition();
-          // print(position.latitude);
-          // print(position.longitude);
+          showDialog(
+            context: context,
+            barrierDismissible:
+                false, // Prevents dismissing the dialog by tapping outside
+            builder: (BuildContext context) {
+              return const Center(
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.teal),
+                ),
+              );
+            },
+          );
+          try {
+            Position position = await _determinePosition();
+            context.read<PostFoodProvider>().getUserDetails(user.uid);
+            users = context.read<PostFoodProvider>().list;
 
-          context.read<PostFoodProvider>().getUserDetails(user.uid);
+            String name = users[users.length - 1].name;
+            String number = users[users.length - 1].number;
 
-          users = context.read<PostFoodProvider>().list;
+            String imageUrl1 = '';
+            String imageUrl2 = '';
+            String imageUrl3 = '';
 
-          String name = users[users.length - 1].name;
-          String number = users[users.length - 1].number;
+            if (pickedImage1 != null) {
+              imageUrl1 = await uploadImageToFirebase(pickedImage1!);
+            }
+            if (pickedImage2 != null) {
+              imageUrl2 = await uploadImageToFirebase(pickedImage2!);
+            }
+            if (pickedImage3 != null) {
+              imageUrl3 = await uploadImageToFirebase(pickedImage3!);
+            }
 
-          // String nname = users[users.length-1].name;
-          // String nnumber = users[users.length-1].number;
-
-          Provider.of<PostFoodProvider>(context, listen: false).addposts(
+            Provider.of<PostFoodProvider>(context, listen: false).addposts(
               title.text,
               description.text,
               quantity.text,
@@ -345,8 +394,41 @@ class _PostFoodState extends State<PostFood> {
               position.latitude,
               position.longitude,
               name,
-              number);
-          value = await alertBox();
+              number,
+              imageUrl1,
+              imageUrl2,
+              imageUrl3,
+            );
+            Navigator.of(context).pop();
+            showDialog<bool>(
+              context: context,
+              builder: (BuildContext context) {
+                return const AlertDialog(
+                  title: Text('Post Added Successfully!'),
+                );
+              },
+            );
+          } catch (error) {
+            Navigator.of(context).pop();
+            showDialog<bool>(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text('Error'),
+                  content:
+                      const Text('A Network has occured, please try again'),
+                  actions: [
+                    TextButton(
+                      child: const Text('OK'),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+          }
         },
         label: const Text(
           'Post',
@@ -356,16 +438,6 @@ class _PostFoodState extends State<PostFood> {
         backgroundColor: const Color(0xFFF9BC60),
       ),
     );
-  }
-
-  Future alertBox() async {
-    return showDialog<bool>(
-        context: context,
-        builder: (BuildContext context) {
-          return const AlertDialog(
-            title: Text('Post Added Successfully!'),
-          );
-        });
   }
 
   stackContainer({File? image}) {

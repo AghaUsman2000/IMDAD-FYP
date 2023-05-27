@@ -36,7 +36,7 @@ class _RiderScreenState extends State<RiderScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Rider Information'),
-        backgroundColor: Colors.teal,
+        backgroundColor: const Color(0xFF004643),
       ),
       body: _orgLocation == null
           ? const Center(child: CircularProgressIndicator())
@@ -136,8 +136,14 @@ class _RiderScreenState extends State<RiderScreen> {
                     ),
                     Card(
                       child: ListTile(
-                        title: const Text("Rider's Status"),
+                        title: const Text("Organization's Name"),
                         subtitle: Text(_orgLocation!.name),
+                      ),
+                    ),
+                    Card(
+                      child: ListTile(
+                        title: const Text("Rider's Rating"),
+                        subtitle: Text(data['rating'].toString()),
                       ),
                     ),
                   ],

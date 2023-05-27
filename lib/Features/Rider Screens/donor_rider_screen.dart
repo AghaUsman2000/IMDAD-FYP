@@ -13,7 +13,7 @@ class RiderScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Rider Information'),
-        backgroundColor: Colors.teal,
+        backgroundColor: const Color(0xFF004643),
       ),
       body: StreamBuilder<DocumentSnapshot>(
         stream: FirebaseFirestore.instance
@@ -89,6 +89,12 @@ class RiderScreen extends StatelessWidget {
                 child: ListTile(
                   title: const Text("Rider's Status"),
                   subtitle: Text(data['status']),
+                ),
+              ),
+              Card(
+                child: ListTile(
+                  title: const Text("Rider's Rating"),
+                  subtitle: Text(data['rating'].toString()),
                 ),
               ),
             ],

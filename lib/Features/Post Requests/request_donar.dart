@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterdemo/Features/Post%20Requests/request_donar_provider.dart';
@@ -31,6 +32,17 @@ class _RequestDonarState extends State<RequestDonar> {
     posts = context.read<PostRequestsProvider>().posts;
     print('Length:');
     print(context.read<PostRequestsProvider>().posts.length);
+  }
+
+  Future<void> deletePost(int index) async {
+    final postId = posts[index].pid;
+    try {
+      // Delete the post from Firestore using the postId
+      await FirebaseFirestore.instance.collection('posts').doc(postId).delete();
+      print('Post deleted successfully.');
+    } catch (e) {
+      print('Error deleting post: $e');
+    }
   }
 
   @override
@@ -103,17 +115,24 @@ class _RequestDonarState extends State<RequestDonar> {
                               color: Color(0xFF5A7A79),
                             )),
                       ),
-                      trailing: Wrap(
-                        spacing: 12, // space between two icons
+                      trailing: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: <Widget>[
                           ElevatedButton.icon(
-                            onPressed: () {},
-                            icon: const Icon(
-                                Icons.refresh), //icon data for elevated button
-                            label: const Text("Processing"), //label text
+                            onPressed: () {
+                              deletePost(index);
+                              showDialog<bool>(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return const AlertDialog(
+                                      title: Text('Post Deleted Successfully!'),
+                                    );
+                                  });
+                            },
+                            icon: const Icon(Icons.cancel),
+                            label: const Text("Cancel"),
                             style: ElevatedButton.styleFrom(
-                              primary: const Color(
-                                  0xFF004803), //elevated btton background color
+                              backgroundColor: Colors.red,
                             ),
                           ),
                         ],

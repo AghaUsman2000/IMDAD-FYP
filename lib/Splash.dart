@@ -16,7 +16,7 @@ class AnimatedLogo extends AnimatedWidget {
       height: animation.value,
       width: animation.value,
       child: Image.asset(
-        'assets/images/logo1.png',
+        'assets/images/Final logo.png',
         scale: 0.7,
       ),
     );
@@ -31,61 +31,70 @@ class Splash extends StatefulWidget {
 }
 
 class _SplashState extends State<Splash> with TickerProviderStateMixin {
-  late Animation<double> animation;
-  late AnimationController controller;
-  late Tween<double> turnsTween;
-  late Animation<double> anim;
-  late AnimationController controller1;
+  // late Animation<double> animation;
+  // late AnimationController controller;
+  // late Tween<double> turnsTween;
+  // late Animation<double> anim;
+  // late AnimationController controller1;
+  late AnimationController _animationController;
+  late Animation<double> _animation;
 
   @override
   dispose() {
-    controller.dispose();
-    controller1.dispose(); // you need this
+    _animationController.dispose();
     super.dispose();
   }
 
   @override
   void initState() {
     super.initState();
-    controller = AnimationController(
-      duration: const Duration(seconds: 1),
+    _animationController = AnimationController(
       vsync: this,
-    )..repeat(reverse: true);
-    controller1 = AnimationController(
-      duration: const Duration(seconds: 2),
-      vsync: this,
-    )..repeat(reverse: true);
-
-    // animation = Tween<double>(begin: 0, end: 200).animate(controller);
-    final alpha = CurvedAnimation(parent: controller, curve: Curves.linear);
-    //animation = CurvedAnimation(parent: controller, curve: Curves.linear);
-    animation = Tween<double>(begin: 0, end: 200).animate(alpha);
-    turnsTween = Tween<double>(
-      begin: 2,
-      end: 0,
+      duration: Duration(seconds: 2),
     );
-    anim = turnsTween.animate(controller1);
-    anim.addStatusListener((status) {
-      print(status);
-      if (status == AnimationStatus.completed) {
-        turnsTween = Tween<double>(
-          begin: 0,
-          end: 2,
-        );
-        controller1.reverse();
-      }
-    });
-    animation.addStatusListener((status) {
-      print(status);
-      // if (status == AnimationStatus.completed) {
-      //   controller.reverse();//add a bool variable
-      // }
-      if (status == AnimationStatus.dismissed) {
-        controller.forward();
-      }
-    });
-    controller.forward();
-    Future.delayed(Duration(seconds: 4), _toNextScreen);
+    _animation = Tween<double>(
+      begin: 0,
+      end: 300,
+    ).animate(_animationController);
+    // controller = AnimationController(
+    //   duration: const Duration(seconds: 1),
+    //   vsync: this,
+    // )..repeat(reverse: true);
+    // controller1 = AnimationController(
+    //   duration: const Duration(seconds: 2),
+    //   vsync: this,
+    // )..repeat(reverse: true);
+    //
+    // // animation = Tween<double>(begin: 0, end: 200).animate(controller);
+    // final alpha = CurvedAnimation(parent: controller, curve: Curves.linear);
+    // //animation = CurvedAnimation(parent: controller, curve: Curves.linear);
+    // animation = Tween<double>(begin: 0, end: 200).animate(alpha);
+    // turnsTween = Tween<double>(
+    //   begin: 2,
+    //   end: 0,
+    // );
+    // anim = Tween.animate(controller1);
+    // anim.addStatusListener((status) {
+    //   print(status);
+    //   if (status == AnimationStatus.completed) {
+    //     turnsTween = Tween<double>(
+    //       begin: 0,
+    //       end: 2,
+    //     );
+    //     controller1.reverse();
+    //   }
+    // });
+    // animation.addStatusListener((status) {
+    //   print(status);
+    //   // if (status == AnimationStatus.completed) {
+    //   //   controller.reverse();//add a bool variable
+    //   // }
+    //   if (status == AnimationStatus.dismissed) {
+    //     controller.forward();
+    //   }
+    // });
+    _animationController.forward();
+    Future.delayed(Duration(seconds: 2), _toNextScreen);
   }
 
   _toNextScreen() {
@@ -108,19 +117,16 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Stack(
-              alignment: Alignment.center,
-              children: <Widget>[
-                RotationTransition(
-                    turns: anim, child: AnimatedLogo(animation: animation)),
-                Image.asset('assets/images/RBtext.png'),
-              ],
-            ),
-            Image.asset('assets/images/RizqBachaotitle.png'),
-          ],
+        child: AnimatedBuilder(
+          animation: _animation,
+          builder: (context, child) {
+            return Container(
+              height: _animation.value,
+              width: _animation.value,
+              child: child,
+            );
+          },
+          child: Image.asset('assets/images/Final logo.png'),
         ),
       ),
     );

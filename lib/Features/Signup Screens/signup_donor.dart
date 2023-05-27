@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutterdemo/Features/Signup%20Screens/signup_donor.dart';
 import 'package:flutterdemo/Features/Signup%20Screens/signup_donor_one.dart';
 import 'package:flutterdemo/Features/Signup%20Screens/signup_donor_provider.dart';
 import 'package:provider/provider.dart';
 import '../../Services/auth.dart';
 import '../../main_screen.dart';
-import '../../main.dart';
 import '../Login Screens/login_donor.dart';
 
 class SignupDonar extends StatefulWidget {
@@ -53,18 +51,7 @@ class signup_container extends StatefulWidget {
 class _signup_containerState extends State<signup_container> {
   final AuthService _auth = AuthService();
 
-  //final nameController = TextEditingController();
-  //final numberController = TextEditingController();
   final formKey = GlobalKey<FormState>();
-
-  // @override
-  // void dispose() {
-  //   // TODO: implement dispose
-  //
-  //   //nameController.dispose();
-  //   //numberController.dispose();
-  //   super.dispose();
-  // }
 
   @override
   Widget build(BuildContext context) {

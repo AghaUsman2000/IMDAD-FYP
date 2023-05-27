@@ -25,7 +25,7 @@ class _LoginOptionScreenState extends State<LoginOptionScreen> {
             //crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Image.asset(
-                'assets/images/complete_logo.png',
+                'assets/images/Final logo.png',
                 scale: 0.7,
               ),
               const SizedBox(

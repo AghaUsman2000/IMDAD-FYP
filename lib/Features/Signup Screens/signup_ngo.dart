@@ -34,8 +34,8 @@ class _SignupNgoState extends State<SignupNgo> {
               right: 45,
               child: Container(
                   child: Image.asset(
-                    'assets/images/login-collector-page-img.png',
-                  )),
+                'assets/images/login-collector-page-img.png',
+              )),
             ),
           ],
         ),
@@ -43,6 +43,7 @@ class _SignupNgoState extends State<SignupNgo> {
     );
   }
 }
+
 class signup_container extends StatefulWidget {
   const signup_container({Key? key}) : super(key: key);
 
@@ -63,9 +64,9 @@ class _signup_containerState extends State<signup_container> {
   final List<String> items = [
     'Edhi Foundation',
     'JDC',
-    'Chhipa',
-    'Aman Foundation',
-    'Akhwat Foundation',
+    'BaitUssalaam',
+    'Sailani',
+    'TCF',
   ];
   String? selectedValue;
   // @override
@@ -123,7 +124,8 @@ class _signup_containerState extends State<signup_container> {
                 ],
               ),
               TextFormField(
-                controller: Provider.of<SignupNgoProvider>(context, listen: false).name,
+                controller:
+                    Provider.of<SignupNgoProvider>(context, listen: false).name,
                 style: const TextStyle(
                   color: Colors.white,
                 ),
@@ -148,11 +150,9 @@ class _signup_containerState extends State<signup_container> {
                   }
                 },
               ),
-
               const SizedBox(
                 height: 20,
               ),
-
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: const [
@@ -166,7 +166,9 @@ class _signup_containerState extends State<signup_container> {
                 ],
               ),
               TextFormField(
-                controller: Provider.of<SignupNgoProvider>(context, listen: false).number,
+                controller:
+                    Provider.of<SignupNgoProvider>(context, listen: false)
+                        .number,
                 obscureText: false,
                 style: const TextStyle(
                   color: Colors.white,
@@ -192,11 +194,9 @@ class _signup_containerState extends State<signup_container> {
                   }
                 },
               ),
-
               const SizedBox(
                 height: 20,
               ),
-
               DropdownButtonHideUnderline(
                 child: DropdownButton2(
                   isExpanded: true,
@@ -224,25 +224,25 @@ class _signup_containerState extends State<signup_container> {
                     ],
                   ),
                   items: items
-                      .map((item) =>
-                      DropdownMenuItem<String>(
-                        value: item,
-                        child: Text(
-                          item,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ))
+                      .map((item) => DropdownMenuItem<String>(
+                            value: item,
+                            child: Text(
+                              item,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ))
                       .toList(),
                   value: selectedValue,
                   onChanged: (value) {
                     setState(() {
                       selectedValue = value as String;
-                      Provider.of<SignupNgoProvider>(context, listen: false).organisation = selectedValue!;
+                      Provider.of<SignupNgoProvider>(context, listen: false)
+                          .organisation = selectedValue!;
                     });
                   },
                   icon: const Icon(
@@ -252,7 +252,7 @@ class _signup_containerState extends State<signup_container> {
                   iconEnabledColor: Color(0xFFF9BC60),
                   iconDisabledColor: Colors.grey,
                   buttonHeight: 50,
-                  buttonWidth: screenwidth*(1),
+                  buttonWidth: screenwidth * (1),
                   buttonPadding: const EdgeInsets.only(left: 14, right: 14),
                   buttonDecoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(14),
@@ -278,7 +278,6 @@ class _signup_containerState extends State<signup_container> {
                   offset: const Offset(-20, 0),
                 ),
               ),
-
               const SizedBox(
                 height: 20,
               ),
@@ -290,14 +289,12 @@ class _signup_containerState extends State<signup_container> {
                           builder: (context) => StreamBuilder<User?>(
                               stream: FirebaseAuth.instance.authStateChanges(),
                               builder: (context, snapshot) {
-                                if(snapshot.hasData)
-                                {
-                                  return MainScreen();//MapLoader(); //if the user is logged in show home page
-                                } else{
+                                if (snapshot.hasData) {
+                                  return MainScreen(); //MapLoader(); //if the user is logged in show home page
+                                } else {
                                   return SignupNgoOne(); // else show login page
                                 }
-                              }
-                          ),
+                              }),
                         ),
                       );
                     }
@@ -328,8 +325,7 @@ class _signup_containerState extends State<signup_container> {
                       child: const Text(
                         'Log-In',
                         style: TextStyle(color: Color(0xFFF9BC60)),
-                      )
-                  )
+                      ))
                 ],
               ),
             ],
